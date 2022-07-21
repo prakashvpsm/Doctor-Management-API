@@ -8,9 +8,9 @@ const createToken = id => {
     {
       id,
     },
-    process.env.JWT_SECRET,
+    'mydsecrent1234',
     {
-      expiresIn: process.env.JWT_EXPIRES_IN,
+      expiresIn: '30d',
     },
   );
 };
