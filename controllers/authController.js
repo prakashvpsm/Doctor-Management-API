@@ -15,7 +15,7 @@ const createToken = id => {
   );
 };
 
-exports.login = async (req, res, next) => {
+const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
@@ -61,7 +61,7 @@ exports.login = async (req, res, next) => {
   }
 };
 
-exports.signup = async (req, res, next) => {
+const signup = async (req, res, next) => {
   try {
     const user = await User.create({
       name: req.body.name,
@@ -87,7 +87,7 @@ exports.signup = async (req, res, next) => {
   }
 };
 
-exports.protect = async (req, res, next) => {
+const protect = async (req, res, next) => {
   try {
     // 1) check if the token is there
     let token;
@@ -132,7 +132,7 @@ exports.protect = async (req, res, next) => {
 };
 
 // Authorization check if the user have rights to do this action
-exports.restrictTo = (...roles) => {
+const restrictTo = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
       return next(
@@ -145,3 +145,10 @@ exports.restrictTo = (...roles) => {
     next();
   };
 };
+
+module.exports = {
+  restrictTo,
+  login,
+  signup,
+  protect
+}

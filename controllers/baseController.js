@@ -1,7 +1,7 @@
 const AppError = require('../utils/appError');
 const APIFeatures = require('../utils/apiFeatures');
 
-exports.deleteOne = Model => async (req, res, next) => {
+const deleteOne  = Model => async (req, res, next) => {
     try {
         const doc = await Model.findByIdAndDelete(req.params.id);
 
@@ -18,7 +18,7 @@ exports.deleteOne = Model => async (req, res, next) => {
     }
 };
 
-exports.updateOne = Model => async (req, res, next) => {
+const updateOne = Model => async (req, res, next) => {
     try {
         const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
             new: true,
@@ -41,7 +41,7 @@ exports.updateOne = Model => async (req, res, next) => {
     }
 };
 
-exports.createOne = Model => async (req, res, next) => {
+const createOne = Model => async (req, res, next) => {
     try {
         const doc = await Model.create(req.body);
 
@@ -57,7 +57,7 @@ exports.createOne = Model => async (req, res, next) => {
     }
 };
 
-exports.getOne = Model => async (req, res, next) => {
+const getOne = Model => async (req, res, next) => {
     try {
         const doc = await Model.findById(req.params.id);
 
@@ -76,7 +76,7 @@ exports.getOne = Model => async (req, res, next) => {
     }
 };
 
-exports.getAll = Model => async (req, res, next) => {
+const getAll = Model => async (req, res, next) => {
     try {
         const features = new APIFeatures(Model.find(), req.query)
             .sort()
@@ -97,3 +97,11 @@ exports.getAll = Model => async (req, res, next) => {
     }
 
 };
+
+module.exports = {
+    deleteOne,
+    updateOne,
+    getAll,
+    getOne,
+    createOne
+}

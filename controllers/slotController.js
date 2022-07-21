@@ -1,7 +1,7 @@
 const Slot = require('../models/slotModal');
 const base = require('./baseController');
 
-exports.deleteMe = async (req, res, next) => {
+const deleteMe = async (req, res, next) => {
     try {
         await Slot.findByIdAndUpdate(req.user.id, {
             active: false
@@ -18,8 +18,19 @@ exports.deleteMe = async (req, res, next) => {
     }
 };
 
-exports.createSlot = base.createOne(Slot);
-exports.getAllSlots = base.getAll(Slot);
-exports.getSlot = base.getOne(Slot);
-exports.updateSlot = base.updateOne(Slot);
-exports.deleteSlot = base.deleteOne(Slot);
+const createSlot = base.createOne(Slot);
+const getAllSlots = base.getAll(Slot);
+const getSlot = base.getOne(Slot);
+const updateSlot = base.updateOne(Slot);
+const deleteSlot = base.deleteOne(Slot);
+
+
+
+module.exports = {
+    deleteMe,
+    createSlot,
+    getAllSlots,
+    getSlot,
+    updateSlot,
+    deleteSlot
+}
