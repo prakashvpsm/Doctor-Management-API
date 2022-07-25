@@ -8,14 +8,14 @@ const createToken = id => {
     {
       id,
     },
-    'mydsecrent1234',
+    process.env.JWT_SECRET,
     {
-      expiresIn: '30d',
+      expiresIn: process.env.JWT_EXPIRES_IN,
     },
   );
 };
 
-const login = async (req, res, next) => {
+exports.login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
@@ -61,7 +61,7 @@ const login = async (req, res, next) => {
   }
 };
 
-const signup = async (req, res, next) => {
+exports.signup = async (req, res, next) => {
   try {
     const user = await User.create({
       name: req.body.name,
@@ -87,7 +87,7 @@ const signup = async (req, res, next) => {
   }
 };
 
-const protect = async (req, res, next) => {
+exports.protect = async (req, res, next) => {
   try {
     // 1) check if the token is there
     let token;
@@ -132,7 +132,7 @@ const protect = async (req, res, next) => {
 };
 
 // Authorization check if the user have rights to do this action
-const restrictTo = (...roles) => {
+exports.restrictTo = (...roles) => {
   return (req, res, next) => {
     if (!roles.includes(req.user.role)) {
       return next(
@@ -145,10 +145,3 @@ const restrictTo = (...roles) => {
     next();
   };
 };
-
-module.exports = {
-  restrictTo,
-  login,
-  signup,
-  protect
-}

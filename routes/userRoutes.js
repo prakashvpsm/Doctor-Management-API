@@ -6,7 +6,7 @@ const authController = require('./../controllers/authController');
 
 router.post('/login', authController.login);
 router.post('/signup', authController.signup);
-router.get('/doctors', userController.getAllUsers);
+router.get('/doctors', userController.getDoctors);
 
 // Protect all routes after this middleware
 router.use(authController.protect);
@@ -18,7 +18,8 @@ router.use(authController.restrictTo('admin'));
 
 router
     .route('/')
-    .get(userController.getAllUsers);
+    .get(userController.getAllUsers)
+    .post(userController.createUser);
 
 
 router

@@ -1,7 +1,7 @@
 const AppError = require('../utils/appError');
 const APIFeatures = require('../utils/apiFeatures');
 
-const deleteOne  = Model => async (req, res, next) => {
+exports.deleteOne = Model => async (req, res, next) => {
     try {
         const doc = await Model.findByIdAndDelete(req.params.id);
 
@@ -18,7 +18,7 @@ const deleteOne  = Model => async (req, res, next) => {
     }
 };
 
-const updateOne = Model => async (req, res, next) => {
+exports.updateOne = Model => async (req, res, next) => {
     try {
         const doc = await Model.findByIdAndUpdate(req.params.id, req.body, {
             new: true,
@@ -41,7 +41,7 @@ const updateOne = Model => async (req, res, next) => {
     }
 };
 
-const createOne = Model => async (req, res, next) => {
+exports.createOne = Model => async (req, res, next) => {
     try {
         const doc = await Model.create(req.body);
 
@@ -57,7 +57,7 @@ const createOne = Model => async (req, res, next) => {
     }
 };
 
-const getOne = Model => async (req, res, next) => {
+exports.getOne = Model => async (req, res, next) => {
     try {
         const doc = await Model.findById(req.params.id);
 
@@ -76,7 +76,7 @@ const getOne = Model => async (req, res, next) => {
     }
 };
 
-const getAll = Model => async (req, res, next) => {
+exports.getAll = Model => async (req, res, next) => {
     try {
         const features = new APIFeatures(Model.find(), req.query)
             .sort()
@@ -98,10 +98,23 @@ const getAll = Model => async (req, res, next) => {
 
 };
 
-module.exports = {
-    deleteOne,
-    updateOne,
-    getAll,
-    getOne,
-    createOne
-}
+
+exports.getSlotsByDate = Model => async (req, res, next) => {
+    try {
+        const doc = await Model.where('_id', req.params.id)
+            .where('slotDate', req.params.date)
+
+        if (!doc) {
+            return next(new AppError(404, 'fail', 'No document found with that id'), req, res, next);
+        }
+
+        res.status(200).json({
+            status: 'success',
+            data: {
+                doc
+            }
+        });
+    } catch (error) {
+        next(error);
+    }
+};

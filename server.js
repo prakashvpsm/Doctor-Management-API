@@ -12,7 +12,7 @@ process.on('uncaughtException', err => {
 
 const app = require('./app');
 
-const database = `mongodb+srv://prakashupsm:Prakash2084@cluster0.4sali.mongodb.net/?retryWrites=true&w=majority`;
+const database = process.env.DATABASE;
 
 // Connect the database
 mongoose.connect(database, {

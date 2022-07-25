@@ -1,7 +1,9 @@
+const moment = require('moment')
 const Slot = require('../models/slotModal');
 const base = require('./baseController');
+const AppError = require('../utils/appError');
 
-const deleteMe = async (req, res, next) => {
+exports.deleteMe = async (req, res, next) => {
     try {
         await Slot.findByIdAndUpdate(req.user.id, {
             active: false
@@ -18,19 +20,28 @@ const deleteMe = async (req, res, next) => {
     }
 };
 
-const createSlot = base.createOne(Slot);
-const getAllSlots = base.getAll(Slot);
-const getSlot = base.getOne(Slot);
-const updateSlot = base.updateOne(Slot);
-const deleteSlot = base.deleteOne(Slot);
 
+exports.getSlotsByDate = async (req, res, next) => {
+    try {
+        console.log(req.params.date)
+        const slot = await Slot.where('id', req.params.id)
+            .where('slotDate', req.params.date)
 
+        if (!slot) {
+            return next(new AppError(404, 'fail', 'No slots found with that id'), req, res, next);
+        }
 
-module.exports = {
-    deleteMe,
-    createSlot,
-    getAllSlots,
-    getSlot,
-    updateSlot,
-    deleteSlot
-}
+        res.status(200).json({
+            status: 'success',
+            data: slot
+        });
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.createSlot = base.createOne(Slot);
+exports.getAllSlots = base.getAll(Slot);
+exports.getSlot = base.getOne(Slot);
+exports.updateSlot = base.updateOne(Slot);
+exports.deleteSlot = base.deleteOne(Slot);

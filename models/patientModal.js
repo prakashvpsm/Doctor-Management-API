@@ -3,33 +3,33 @@ const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const { ObjectId } = require("mongoose");
 
-const slotSchema = new mongoose.Schema({
-  id: {
+const patientSchema = new mongoose.Schema({
+  date : {
     type: String,
     required : true
   },
-  slotDate : {
+  doctorID: {
     type: String,
     required : true
   },
-  from : {
+  slotId : {
     type: String,
     required : true
   },
-  to : {
+  slotText : {
     type: String,
     required : true
   },
-  textTime: {
+  name : {
     type: String,
     required : true
   },
-  status: {
+  email : {
     type: String,
-    default : 'active'
-  },
+    required : true
+  }
 });
 
 
-const Slot = mongoose.model("Slot", slotSchema);
-module.exports = Slot;
+const Patient = mongoose.model("Patient", patientSchema);
+module.exports = Patient;
