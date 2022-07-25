@@ -97,3 +97,24 @@ exports.getAll = Model => async (req, res, next) => {
     }
 
 };
+
+
+exports.getSlotsByDate = Model => async (req, res, next) => {
+    try {
+        const doc = await Model.where('_id', req.params.id)
+            .where('slotDate', req.params.date)
+
+        if (!doc) {
+            return next(new AppError(404, 'fail', 'No document found with that id'), req, res, next);
+        }
+
+        res.status(200).json({
+            status: 'success',
+            data: {
+                doc
+            }
+        });
+    } catch (error) {
+        next(error);
+    }
+};

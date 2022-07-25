@@ -9,6 +9,8 @@ const cors = require('cors');
 
 const userRoutes = require('./routes/userRoutes');
 const slotRoutes = require('./routes/slotRouter');
+const patientRoutes = require('./routes/patientRoutes');
+
 
 const globalErrHandler = require('./controllers/errorController');
 const AppError = require('./utils/appError');
@@ -31,6 +33,8 @@ app.use(xss());
 app.use(hpp());
 app.use('/api/v1/users', userRoutes);
 app.use('/api/v1/slots', slotRoutes);
+app.use('/api/v1/patients', patientRoutes);
+
 app.use('*', (req, res, next) => {
     const err = new AppError(404, 'fail', 'undefined route');
     next(err, req, res, next);

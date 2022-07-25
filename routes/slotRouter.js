@@ -4,11 +4,11 @@ const slotController = require('../controllers/slotController');
 const authController = require('./../controllers/authController');
 
 
+router
+    .route('/:id/:date')
+    .get(slotController.getSlotsByDate);
+
 router.use(authController.protect);
-
-
-// Only admin have permission to access for the below APIs 
-router.use(authController.restrictTo('admin'));
 
 router
     .route('/')
@@ -20,5 +20,6 @@ router
     .get(slotController.getSlot)
     .patch(slotController.updateSlot)
     .delete(slotController.deleteSlot);
+
 
 module.exports = router;
